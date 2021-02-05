@@ -7,25 +7,24 @@ import { Asset } from "../../models/asset";
 
 export type State = {
   availableCurrencies: Currency[];
-  portfolios: Portfolio[];
   balance: number;
-  prices: Prices | null;
   menuOppened: boolean;
+  portfolios: Portfolio[];
+  prices: Prices | null;
   view: View;
 };
 
 export enum ActionTypes {
   addAsset,
-  setAvailableCurrencies,
   addPortfolio,
-  removePortfolio,
-  editPortfolio,
   editAsset,
+  editPortfolio,
   removeAsset,
-  modifyAmount,
-  setPrices,
+  removePortfolio,
+  setAvailableCurrencies,
   setBalance,
   setMenuOppened,
+  setPrices,
   setView,
 }
 
@@ -35,42 +34,6 @@ export type Dispatch = (action: Action) => void;
 const reducer: Reducer<State, Action> = (state: State, action: Action) => {
   const { type, payload } = action;
   switch (type) {
-    case ActionTypes.setAvailableCurrencies: {
-      return { ...state, availableCurrencies: payload };
-    }
-
-    case ActionTypes.setMenuOppened: {
-      return { ...state, menuOppened: payload };
-    }
-
-    case ActionTypes.setView: {
-      return { ...state, view: payload };
-    }
-
-    case ActionTypes.setPrices: {
-      return { ...state, prices: payload };
-    }
-
-    case ActionTypes.setBalance: {
-      return { ...state, balance: payload };
-    }
-
-    case ActionTypes.editAsset: {
-      const newPortfolios = [...state.portfolios];
-      const currentPortoflio: Portfolio = newPortfolios.filter(
-        (portfolio) => portfolio.uuid === payload.portfolioUuid
-      )[0];
-
-      const index = currentPortoflio.assets.indexOf(payload.asset as Asset);
-      if (index !== -1) {
-        currentPortoflio.assets[index].amount = Number.parseFloat(
-          payload.value
-        );
-      }
-
-      return { ...state, portfolios: [...newPortfolios] };
-    }
-
     case ActionTypes.addAsset: {
       const newPortfolios = [...state.portfolios];
       const currentPortoflio: Portfolio = newPortfolios.filter(
@@ -86,13 +49,14 @@ const reducer: Reducer<State, Action> = (state: State, action: Action) => {
       return { ...state, portfolios: [...state.portfolios, payload] };
     }
 
-    case ActionTypes.removePortfolio: {
+    case ActionTypes.editAsset: {
       const newPortfolios = [...state.portfolios];
+      const currentPortoflio: Portfolio = newPortfolios.filter(
+        (portfolio) => portfolio.uuid === payload.portfolioUuid
+      )[0];
 
-      const index = newPortfolios.indexOf(payload as Portfolio);
-      if (index !== -1) {
-        newPortfolios.splice(index, 1);
-      }
+      const index = currentPortoflio.assets.indexOf(payload.asset as Asset);
+      currentPortoflio.assets[index].amount = Number.parseFloat(payload.value);
 
       return { ...state, portfolios: [...newPortfolios] };
     }
@@ -104,9 +68,7 @@ const reducer: Reducer<State, Action> = (state: State, action: Action) => {
       )[0];
 
       const index = newPortfolios.indexOf(currentPortoflio as Portfolio);
-      if (index !== -1) {
-        newPortfolios[index] = payload;
-      }
+      newPortfolios[index] = payload;
 
       return { ...state, portfolios: [...newPortfolios] };
     }
@@ -118,11 +80,38 @@ const reducer: Reducer<State, Action> = (state: State, action: Action) => {
       )[0];
 
       const index = currentPortoflio.assets.indexOf(payload.asset as Asset);
-      if (index !== -1) {
-        currentPortoflio.assets.splice(index, 1);
-      }
+      currentPortoflio.assets.splice(index, 1);
 
       return { ...state, portfolios: [...newPortfolios] };
+    }
+
+    case ActionTypes.removePortfolio: {
+      const newPortfolios = [...state.portfolios];
+
+      const index = newPortfolios.indexOf(payload as Portfolio);
+      newPortfolios.splice(index, 1);
+
+      return { ...state, portfolios: [...newPortfolios] };
+    }
+
+    case ActionTypes.setAvailableCurrencies: {
+      return { ...state, availableCurrencies: payload };
+    }
+
+    case ActionTypes.setBalance: {
+      return { ...state, balance: payload };
+    }
+
+    case ActionTypes.setMenuOppened: {
+      return { ...state, menuOppened: payload };
+    }
+
+    case ActionTypes.setPrices: {
+      return { ...state, prices: payload };
+    }
+
+    case ActionTypes.setView: {
+      return { ...state, view: payload };
     }
 
     default: {

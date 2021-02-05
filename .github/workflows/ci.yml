@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    name: Test
+    name: Build and Test
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test

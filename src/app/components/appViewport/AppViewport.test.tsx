@@ -3,7 +3,7 @@ import { mount, ReactWrapper } from "enzyme";
 import AppViewport from "./AppViewport";
 import englishMessages from "../../translations/messages/en_US.json";
 import { IntlProvider } from "react-intl";
-import THEME from "../../../tests/themeMock";
+import THEME from "../../../tests/theme-mock";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import cryptoContext, {
   defaultState as CryptoDefaultState,

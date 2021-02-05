@@ -1,4 +1,3 @@
-import { Asset } from "../models/asset";
 import { Prices } from "../models/prices";
 import {
   normalizePrice,
@@ -6,43 +5,12 @@ import {
   getPercentage,
   getTotalBalance,
 } from "./convertions";
-
-const ethereumAmount = 5;
-const bitcoinAmount = 1;
-const theGraphAmount = 10000;
-
-const prices: Prices = {
-  ethereum: { eur: 1100, btc: 0.3, usd: 1400 },
-  bitcoin: { eur: 30000, btc: 1, usd: 36000 },
-  "the-graph": { eur: 0.7, btc: 0.000003, usd: 0.9 },
-};
-
-const assets: Asset[] = [
-  {
-    currency: {
-      id: "bitcoin",
-      symbol: "btc",
-      name: "Bitcoin",
-    },
-    amount: bitcoinAmount,
-  },
-  {
-    currency: {
-      id: "ethereum",
-      symbol: "eth",
-      name: "Ethereum",
-    },
-    amount: ethereumAmount,
-  },
-  {
-    currency: {
-      id: "the-graph",
-      symbol: "grt",
-      name: "The Graph",
-    },
-    amount: theGraphAmount,
-  },
-];
+import prices from "../../tests/prices-mock";
+import assets, {
+  ethereumAmount,
+  bitcoinAmount,
+  theGraphAmount,
+} from "../../tests/assets-mock";
 
 describe("convertions helper functions", () => {
   it("normalizePrice - returns a normalized number with maximun 3 decimal digits", () => {

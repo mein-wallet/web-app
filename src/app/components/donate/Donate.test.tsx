@@ -4,7 +4,7 @@ import Donate from "./Donate";
 import MyAddresses from "../myAddresses/MyAddresses";
 import englishMessages from "../../translations/messages/en_US.json";
 import { IntlProvider } from "react-intl";
-import THEME from "../../../tests/themeMock";
+import THEME from "../../../tests/theme-mock";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
 const setupComponent = (): ReactWrapper => {

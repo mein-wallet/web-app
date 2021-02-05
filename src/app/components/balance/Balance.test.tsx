@@ -2,7 +2,7 @@ import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import Balance, { Props } from "./Balance";
 import { Exchange } from "../../models/exchange";
-import THEME from "../../../tests/themeMock";
+import THEME from "../../../tests/theme-mock";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
 const defaultProps: Props = {

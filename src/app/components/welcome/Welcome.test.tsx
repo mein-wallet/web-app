@@ -3,7 +3,7 @@ import { mount, ReactWrapper } from "enzyme";
 import Welcome from "./Welcome";
 import englishMessages from "../../translations/messages/en_US.json";
 import { IntlProvider } from "react-intl";
-import THEME from "../../../tests/themeMock";
+import THEME from "../../../tests/theme-mock";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import settingsContext from "../../context/settings-context";
