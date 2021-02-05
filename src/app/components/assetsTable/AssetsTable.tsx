@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type Props = {
+export type Props = {
   assets: Asset[];
   prices: Prices | null;
   portfolioUuid: string;
@@ -105,6 +105,7 @@ export default function AssetsTable({
                   <TableCell>{asset.currency.name}</TableCell>
                   <TableCell>
                     <TextField
+                      data-test-id="change-asset-amount"
                       onChange={(e) => changeAmount(e.target.value, asset)}
                       id={asset.currency.id}
                       value={asset.amount}
@@ -127,6 +128,7 @@ export default function AssetsTable({
                   </TableCell>{" "}
                   <TableCell>
                     <IconButton
+                      data-test-id="remove-asset"
                       onClick={() => removeAsset(asset)}
                       aria-label="delete"
                     >
