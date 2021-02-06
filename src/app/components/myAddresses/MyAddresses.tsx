@@ -79,7 +79,7 @@ export default function MyAddresses() {
   );
 }
 
-const CryptoList = styled.ul`
+export const CryptoList = styled.ul`
   list-style: none;
   display: flex;
   flex-wrap: wrap;
@@ -87,8 +87,7 @@ const CryptoList = styled.ul`
   padding: 0;
   justify-content: center;
 `;
-
-const CryptoItem = styled.li`
+export const CryptoItem = styled.li`
   text-align: center;
   margin-bottom: 24px;
 `;

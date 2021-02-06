@@ -2,10 +2,6 @@ import { Wallet } from "../models/wallet";
 import { Settings } from "../models/settings";
 import { SETTINGS, WALLET } from "../models/storage-keys";
 
-export function isNewUser() {
-  return localStorage.getItem(WALLET) === null;
-}
-
 export function saveWallet(wallet: Wallet) {
   return localStorage.setItem(WALLET, JSON.stringify(wallet));
 }

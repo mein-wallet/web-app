@@ -1,4 +1,3 @@
-import React, { Dispatch } from "react";
 import { generateUUID } from "./uuid";
 
 describe("uuid helper functions", () => {
