@@ -3,11 +3,19 @@ import { HeaderKey } from "../components/assetsTable/TableHeader";
 import { Asset } from "../models/asset";
 import { RenderAsset } from "../models/renderAsset";
 
-function descendingComparator(a: any, b: any, orderBy: HeaderKey) {
-  if (b[orderBy] < a[orderBy]) {
+function descendingComparator(
+  a: any,
+  b: any,
+  orderBy: HeaderKey,
+  isNumber: boolean
+) {
+  const bEvaluate = isNumber ? Number.parseFloat(b[orderBy]) : b[orderBy];
+  const aEvaluate = isNumber ? Number.parseFloat(a[orderBy]) : a[orderBy];
+
+  if (bEvaluate < aEvaluate) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (bEvaluate > aEvaluate) {
     return 1;
   }
   return 0;
@@ -15,11 +23,12 @@ function descendingComparator(a: any, b: any, orderBy: HeaderKey) {
 
 export function getComparator(
   orderDirection: SortDirection,
-  orderBy: HeaderKey
+  orderBy: HeaderKey,
+  isNumber: boolean
 ) {
   return orderDirection === "desc"
-    ? (a: Asset, b: Asset) => descendingComparator(a, b, orderBy)
-    : (a: Asset, b: Asset) => -descendingComparator(a, b, orderBy);
+    ? (a: Asset, b: Asset) => descendingComparator(a, b, orderBy, isNumber)
+    : (a: Asset, b: Asset) => -descendingComparator(a, b, orderBy, isNumber);
 }
 
 export function sortAssets(

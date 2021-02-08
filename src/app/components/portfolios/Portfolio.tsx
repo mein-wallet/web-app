@@ -49,9 +49,9 @@ export default function Portfolio({ portfolio }: Props) {
           <Grid container>
             <Grid
               item
+              xs={12}
               sm={12}
               md={12}
-              xs={12}
               alignItems="center"
               justify="center"
             >
@@ -77,7 +77,7 @@ export default function Portfolio({ portfolio }: Props) {
           </CenterContainer>
         </Grid>
       )}
-      <Grid item sm={12} md={5}>
+      <Grid item md={5} sm={12}>
         <Sidebar portfolio={portfolio} prices={prices} />
       </Grid>
     </Grid>

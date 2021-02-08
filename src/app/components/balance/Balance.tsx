@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "center",
       [theme.breakpoints.down("xs")]: {
         fontSize: 40,
+        margin: 16,
       },
     },
   })

@@ -9,6 +9,7 @@ export type TableHeaderProps = {
   orderBy: HeaderKey;
   orderDirection: SortDirection;
   onClick: Function;
+  extraClass?: string;
 };
 
 export default function TableHeader({
@@ -17,9 +18,13 @@ export default function TableHeader({
   orderBy,
   orderDirection,
   onClick,
+  extraClass,
 }: TableHeaderProps) {
   return (
-    <TableCell sortDirection={orderBy === id ? orderDirection : undefined}>
+    <TableCell
+      className={extraClass}
+      sortDirection={orderBy === id ? orderDirection : undefined}
+    >
       <TableSortLabel
         active={orderBy === id}
         direction={
@@ -28,7 +33,7 @@ export default function TableHeader({
             | "asc"
             | undefined
         }
-        onClick={(e) => onClick(e, id)}
+        onClick={() => onClick()}
       >
         <FormattedMessage id={label} />
       </TableSortLabel>

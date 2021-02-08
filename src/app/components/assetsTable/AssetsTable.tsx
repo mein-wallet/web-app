@@ -59,6 +59,7 @@ export default function AssetsTable({
     "asc"
   );
   const [orderBy, setOrderBy] = React.useState<HeaderKey>("currency");
+  const [orderTypeNumber, setOrderTypeNumber] = React.useState(false);
 
   function removeAsset(asset: Asset) {
     dispatch({
@@ -67,10 +68,11 @@ export default function AssetsTable({
     });
   }
 
-  function handleRequestSort(event: MouseEvent, property: HeaderKey) {
+  function handleRequestSort(property: HeaderKey, isNumber: boolean) {
     const isAsc = orderBy === property && orderDirection === "asc";
     setOrderDirection(isAsc ? "desc" : "asc");
     setOrderBy(property);
+    setOrderTypeNumber(isNumber);
   }
 
   function changeAmount(value: any, asset: Asset) {
@@ -114,28 +116,30 @@ export default function AssetsTable({
                 label="asset_currency"
                 orderBy={orderBy}
                 orderDirection={orderDirection}
-                onClick={handleRequestSort}
+                onClick={() => handleRequestSort("currency", false)}
               />
               <TableHeader
                 id="amount"
                 label="asset_amount"
                 orderBy={orderBy}
                 orderDirection={orderDirection}
-                onClick={handleRequestSort}
+                onClick={() => handleRequestSort("amount", true)}
               />
               <TableHeader
                 id="pricePerUnit"
+                extraClass={classes.notMobile}
                 label="asset_price_per_unit"
                 orderBy={orderBy}
                 orderDirection={orderDirection}
-                onClick={handleRequestSort}
+                onClick={() => handleRequestSort("pricePerUnit", true)}
               />
               <TableHeader
                 id="totalValue"
+                extraClass={classes.notMobile}
                 label="asset_total_amount"
                 orderBy={orderBy}
                 orderDirection={orderDirection}
-                onClick={handleRequestSort}
+                onClick={() => handleRequestSort("totalValue", true)}
               />
               <TableCell>
                 <FormattedMessage id="asset_actions" />
@@ -145,7 +149,7 @@ export default function AssetsTable({
           <TableBody>
             {sortAssets(
               buildedAssets,
-              getComparator(orderDirection, orderBy)
+              getComparator(orderDirection, orderBy, orderTypeNumber)
             ).map((renderAsset) => {
               return (
                 <TableRow

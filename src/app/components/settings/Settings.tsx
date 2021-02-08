@@ -10,11 +10,11 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Switch,
-  FormLabel,
-  FormGroup,
+  // Switch,
+  // FormLabel,
+  // FormGroup,
   Divider,
-  FormControlLabel,
+  // FormControlLabel,
 } from "@material-ui/core";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -61,12 +61,12 @@ export default function Settings() {
     }
   }, [settings, autosave]);
 
-  const toggleAutosave = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: ActionTypes.setAutosave,
-      payload: event.target.checked,
-    });
-  };
+  // const toggleAutosave = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   dispatch({
+  //     type: ActionTypes.setAutosave,
+  //     payload: event.target.checked,
+  //   });
+  // };
 
   function selectExchange(exchange: Exchange) {
     dispatch({ type: ActionTypes.setExchange, payload: exchange });
@@ -151,7 +151,7 @@ export default function Settings() {
             <Divider />
           </React.Fragment>
         )}
-        <li>
+        {/* <li>
           <FormControl className={classes.formControl} component="fieldset">
             <FormLabel component="legend">Advanced</FormLabel>
             <FormGroup>
@@ -170,7 +170,7 @@ export default function Settings() {
               <FormattedMessage id="autosave_global_hint" />
             </FormHelperText>
           </FormControl>
-        </li>
+        </li> */}
       </ConfigurationList>
     </div>
   );

@@ -31,6 +31,8 @@ import { FormattedMessage } from "react-intl";
 import { Exchange } from "../../models/exchange";
 import { saveWallet, saveSettings } from "../../helpers/storage";
 import styled from "styled-components";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,6 +42,8 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <div
@@ -49,7 +53,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box p={isSmall ? 0 : 2}>{children}</Box>}
     </div>
   );
 }
