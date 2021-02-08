@@ -19,6 +19,8 @@ import {
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { saveSettings } from "../../helpers/storage";
+import cryptoContext from "../../context/crypto-context";
+import { Portfolio } from "../../models/portfolio";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,10 +44,15 @@ export default function Settings() {
   const dispatch = settingsContenxt.useSettingsDispatch();
   const classes = useStyles();
   const settings = settingsContenxt.useSettingsState();
-  const { locale, exchange, autosave } = settings;
+  const { portfolios } = cryptoContext.useCryptoState();
+  const { locale, exchange, autosave, defaultPortfolio } = settings;
 
   function selectLanguage(language: Locale) {
     dispatch({ type: ActionTypes.setLocale, payload: language });
+  }
+
+  function selectDefaultPortfolio(portfolioUuid: Portfolio) {
+    dispatch({ type: ActionTypes.setDefaultPortfolio, payload: portfolioUuid });
   }
 
   React.useEffect(() => {
@@ -70,12 +77,10 @@ export default function Settings() {
       <ConfigurationList>
         <li>
           <FormControl className={classes.formControl}>
-            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+            <InputLabel shrink>
               <FormattedMessage id="language" />
             </InputLabel>
             <Select
-              labelId="demo-simple-select-placeholder-label-label"
-              id="demo-simple-select-placeholder-label"
               value={locale}
               onChange={(e) => selectLanguage(e.target.value as Locale)}
               displayEmpty
@@ -98,12 +103,10 @@ export default function Settings() {
         </li>
         <li>
           <FormControl className={classes.formControl}>
-            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+            <InputLabel shrink>
               <FormattedMessage id="currency" />
             </InputLabel>
             <Select
-              labelId="demo-simple-select-placeholder-label-label"
-              id="demo-simple-select-placeholder-label"
               value={exchange}
               onChange={(e) => selectExchange(e.target.value as Exchange)}
               displayEmpty
@@ -119,6 +122,35 @@ export default function Settings() {
           </FormControl>
         </li>
         <Divider />
+        {portfolios.length > 0 && (
+          <React.Fragment>
+            <li>
+              <FormControl className={classes.formControl}>
+                <InputLabel shrink>
+                  <FormattedMessage id="default_portfolio" />
+                </InputLabel>
+                <Select
+                  value={defaultPortfolio}
+                  onChange={(e) =>
+                    selectDefaultPortfolio(e.target.value as Portfolio)
+                  }
+                  displayEmpty
+                  className={classes.selectEmpty}
+                >
+                  {portfolios.map((portfolio: Portfolio) => (
+                    <MenuItem key={portfolio.uuid} value={portfolio.uuid}>
+                      {portfolio.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>
+                  <FormattedMessage id="default_portfolio_hint" />
+                </FormHelperText>
+              </FormControl>
+            </li>
+            <Divider />
+          </React.Fragment>
+        )}
         <li>
           <FormControl className={classes.formControl} component="fieldset">
             <FormLabel component="legend">Advanced</FormLabel>

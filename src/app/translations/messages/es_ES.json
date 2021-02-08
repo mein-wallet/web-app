@@ -51,5 +51,7 @@
   "portfolio_name": "Nombre del Portafolio",
   "asset_price_per_unit": "Valor por unidad",
   "asset_total_amount": "Total",
-  "asset_actions": "Acciones"
+  "asset_actions": "Acciones",
+  "default_portfolio": "Portafolio por defecto",
+  "default_portfolio_hint": "Este es el portafolio que va a aparecer al principio cuando inicies la applicación."
 }

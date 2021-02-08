@@ -31,7 +31,9 @@ const setupComponent = (view?: View): ReactWrapper => {
   cryptoContext.useCryptoDispatch = mockUseCryptoDispatch;
   mockUseSettingsState = jest.fn().mockReturnValue({ ...SettingsDefaultState });
   settingsContext.useSettingsState = mockUseSettingsState;
-  settingsContext.useSettingsDispatch = mockUseSettingsDispatch;
+  settingsContext.useSettingsDispatch = mockUseSettingsDispatch.mockReturnValue(
+    jest.fn()
+  );
 
   return mount(
     <MuiThemeProvider theme={THEME}>

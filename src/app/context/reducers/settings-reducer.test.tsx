@@ -1,4 +1,5 @@
 import reducer, { ActionTypes, State } from "./settings-reducer";
+import portfoliosMock from "../../../tests/portfolios-mock";
 
 describe("Settings Reducer", () => {
   let state: State;
@@ -44,6 +45,30 @@ describe("Settings Reducer", () => {
       payload: false,
     });
     expect(state.welcome).toEqual(false);
+  });
+
+  test("setDefaultPortfolio action works", () => {
+    const portfolio = portfoliosMock[0];
+    state = reducer(state, {
+      type: ActionTypes.setDefaultPortfolio,
+      payload: portfolio.uuid,
+    });
+    expect(state.defaultPortfolio).toEqual(portfolio.uuid);
+  });
+
+  test("removeDefaultPortfolio action works", () => {
+    const portfolio = portfoliosMock[0];
+    state = reducer(state, {
+      type: ActionTypes.setDefaultPortfolio,
+      payload: portfolio.uuid,
+    });
+
+    state = reducer(state, {
+      type: ActionTypes.removeDefaultPortfolio,
+      payload: null,
+    });
+
+    expect(state.defaultPortfolio).toBeUndefined();
   });
 
   test("does not allow invalid action and throw an error", () => {

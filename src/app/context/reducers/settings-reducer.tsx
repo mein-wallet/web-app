@@ -8,6 +8,8 @@ export enum ActionTypes {
   setExchange,
   setLocale,
   setWelcome,
+  setDefaultPortfolio,
+  removeDefaultPortfolio,
 }
 
 export type Action = { type: ActionTypes; payload: any };
@@ -27,8 +29,18 @@ const reducer: Reducer<State, Action> = (state: State, action: Action) => {
       return { ...state, locale: payload };
     }
 
+    case ActionTypes.setDefaultPortfolio: {
+      return { ...state, defaultPortfolio: payload };
+    }
+
     case ActionTypes.setWelcome: {
       return { ...state, welcome: payload };
+    }
+
+    case ActionTypes.removeDefaultPortfolio: {
+      const newState = { ...state };
+      delete newState.defaultPortfolio;
+      return { ...newState };
     }
 
     default: {

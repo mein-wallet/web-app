@@ -51,5 +51,7 @@
   "portfolio_name": "Portfolio-Name",
   "asset_price_per_unit": "Preis pro Einheit",
   "asset_total_amount": "Gesamtmenge",
-  "asset_actions": "Aktionen"
+  "asset_actions": "Aktionen",
+  "default_portfolio": "Standardportfolio",
+  "default_portfolio_hint": "Dies ist das Standardportfolio, das beim Starten der App geladen wird "
 }

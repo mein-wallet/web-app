@@ -25,10 +25,11 @@ import cryptoContext from "../../context/crypto-context";
 import settingContext from "../../context/settings-context";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { ActionTypes } from "../../context/reducers/crypto-reducer";
+import { ActionTypes as SettingsActionTypes } from "../../context/reducers/settings-reducer";
 import { generateUUID } from "../../helpers/uuid";
 import { FormattedMessage } from "react-intl";
 import { Exchange } from "../../models/exchange";
-import { saveWallet } from "../../helpers/storage";
+import { saveWallet, saveSettings } from "../../helpers/storage";
 import styled from "styled-components";
 
 interface TabPanelProps {
@@ -83,9 +84,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function Portfolios() {
   const classes = useStyles();
   const dispatch = cryptoContext.useCryptoDispatch();
-  const [value, setValue] = React.useState(0);
+  const settings = settingContext.useSettingsState();
+  const settingsDispatch = settingContext.useSettingsDispatch();
   const { portfolios } = cryptoContext.useCryptoState();
-  const { exchange, autosave } = settingContext.useSettingsState();
+  const {
+    exchange,
+    autosave,
+    defaultPortfolio,
+  } = settingContext.useSettingsState();
+  let startIndex = 0;
+  if (defaultPortfolio!!) {
+    startIndex = portfolios.findIndex((x) => x.uuid === defaultPortfolio);
+  }
+  const [currentPortfolioIndex, setCurrentPortfolioIndex] = React.useState(
+    startIndex
+  );
   const [portfolioHintOpen, setPortfolioHintOpen] = React.useState(
     portfolios.length < 1
   );
@@ -94,15 +107,26 @@ export default function Portfolios() {
     exchange
   );
   const [addPorfolioOpen, setAddPorfolioOpen] = React.useState(false);
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
+  const handleChange = (event: React.ChangeEvent<{}>, index: number) => {
+    setCurrentPortfolioIndex(index);
   };
+
+  React.useEffect(() => {
+    saveSettings(settings);
+  }, [settings]);
 
   React.useEffect(() => {
     if (autosave) {
       saveWallet({ portfolios });
+
+      if (portfolios.findIndex((x) => x.uuid === defaultPortfolio) < 0) {
+        settingsDispatch({
+          type: SettingsActionTypes.removeDefaultPortfolio,
+          payload: null,
+        });
+      }
     }
-  }, [portfolios, autosave]);
+  }, [portfolios, autosave, defaultPortfolio, settingsDispatch]);
 
   function addPorfolio() {
     if (newPortfolioName !== "") {
@@ -139,7 +163,7 @@ export default function Portfolios() {
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
-          value={value}
+          value={currentPortfolioIndex}
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
@@ -183,7 +207,11 @@ export default function Portfolios() {
         </Tabs>
       </AppBar>
       {portfolios.map((portfolio, index) => (
-        <TabPanel key={portfolio.uuid} value={value} index={index}>
+        <TabPanel
+          key={portfolio.uuid}
+          value={currentPortfolioIndex}
+          index={index}
+        >
           <Portfolio portfolio={portfolio} />
         </TabPanel>
       ))}

@@ -10,8 +10,10 @@ import {
   TableCell,
   TableRow,
   TextField,
+  SortDirection,
 } from "@material-ui/core";
 import { Asset } from "../../models/asset";
+import { RenderAsset } from "../../models/renderAsset";
 import { Prices } from "../../models/prices";
 import { Delete } from "@material-ui/icons";
 import cryptoContext from "../../context/crypto-context";
@@ -19,6 +21,8 @@ import { ActionTypes } from "../../context/reducers/crypto-reducer";
 import { Exchange } from "../../models/exchange";
 import { normalizePrice } from "../../helpers/convertions";
 import { FormattedMessage } from "react-intl";
+import TableHeader, { HeaderKey } from "./TableHeader";
+import { sortAssets, getComparator } from "../../helpers/sort";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,12 +55,22 @@ export default function AssetsTable({
 }: Props) {
   const classes = useStyles();
   const dispatch = cryptoContext.useCryptoDispatch();
+  const [orderDirection, setOrderDirection] = React.useState<SortDirection>(
+    "asc"
+  );
+  const [orderBy, setOrderBy] = React.useState<HeaderKey>("currency");
 
   function removeAsset(asset: Asset) {
     dispatch({
       type: ActionTypes.removeAsset,
       payload: { portfolioUuid, asset },
     });
+  }
+
+  function handleRequestSort(event: MouseEvent, property: HeaderKey) {
+    const isAsc = orderBy === property && orderDirection === "asc";
+    setOrderDirection(isAsc ? "desc" : "asc");
+    setOrderBy(property);
   }
 
   function changeAmount(value: any, asset: Asset) {
@@ -70,66 +84,98 @@ export default function AssetsTable({
     });
   }
 
+  const buildedAssets: RenderAsset[] = assets.map((asset: Asset) => {
+    return {
+      id: asset.currency.id,
+      currency: asset.currency.name,
+      amount: asset.amount,
+      pricePerUnit:
+        prices !== null && typeof prices[asset.currency.id] !== "undefined"
+          ? prices[asset.currency.id][exchange]
+          : "?",
+      totalValue:
+        prices !== null && typeof prices[asset.currency.id] !== "undefined"
+          ? `${normalizePrice(
+              prices[asset.currency.id][exchange] * asset.amount
+            )}`
+          : "?",
+      _asset: asset,
+    };
+  });
+
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell>
-                <FormattedMessage id="asset_currency" />
-              </TableCell>
-              <TableCell>
-                <FormattedMessage id="asset_amount" />
-              </TableCell>
-              <TableCell className={classes.notMobile}>
-                <FormattedMessage id="asset_price_per_unit" />
-              </TableCell>
-              <TableCell className={classes.notMobile}>
-                <FormattedMessage id="asset_total_amount" />
-              </TableCell>
+              <TableHeader
+                id="currency"
+                label="asset_currency"
+                orderBy={orderBy}
+                orderDirection={orderDirection}
+                onClick={handleRequestSort}
+              />
+              <TableHeader
+                id="amount"
+                label="asset_amount"
+                orderBy={orderBy}
+                orderDirection={orderDirection}
+                onClick={handleRequestSort}
+              />
+              <TableHeader
+                id="pricePerUnit"
+                label="asset_price_per_unit"
+                orderBy={orderBy}
+                orderDirection={orderDirection}
+                onClick={handleRequestSort}
+              />
+              <TableHeader
+                id="totalValue"
+                label="asset_total_amount"
+                orderBy={orderBy}
+                orderDirection={orderDirection}
+                onClick={handleRequestSort}
+              />
               <TableCell>
                 <FormattedMessage id="asset_actions" />
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {assets.map((asset: Asset) => {
+            {sortAssets(
+              buildedAssets,
+              getComparator(orderDirection, orderBy)
+            ).map((renderAsset) => {
               return (
                 <TableRow
                   hover
                   role="checkbox"
                   tabIndex={-1}
-                  key={asset.currency.id}
+                  key={renderAsset.id}
                 >
-                  <TableCell>{asset.currency.name}</TableCell>
+                  <TableCell>{renderAsset.currency}</TableCell>
                   <TableCell>
                     <TextField
                       data-test-id="change-asset-amount"
-                      onChange={(e) => changeAmount(e.target.value, asset)}
-                      id={asset.currency.id}
-                      value={asset.amount}
+                      onChange={(e) =>
+                        changeAmount(e.target.value, renderAsset._asset)
+                      }
+                      id={renderAsset.id}
+                      value={renderAsset.amount}
                       type="number"
                     />
                   </TableCell>
                   <TableCell className={classes.notMobile}>
-                    {prices !== null &&
-                    typeof prices[asset.currency.id] !== "undefined"
-                      ? prices[asset.currency.id][exchange]
-                      : "?"}
+                    {renderAsset.pricePerUnit}
                   </TableCell>
                   <TableCell className={classes.notMobile}>
-                    {prices !== null &&
-                    typeof prices[asset.currency.id] !== "undefined"
-                      ? `${normalizePrice(
-                          prices[asset.currency.id][exchange] * asset.amount
-                        )}`
-                      : "?"}
-                  </TableCell>{" "}
+                    {renderAsset.totalValue}
+                  </TableCell>
                   <TableCell>
                     <IconButton
                       data-test-id="remove-asset"
-                      onClick={() => removeAsset(asset)}
+                      onClick={() => removeAsset(renderAsset._asset)}
                       aria-label="delete"
                     >
                       <Delete />

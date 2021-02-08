@@ -45,7 +45,7 @@ export default function Portfolio({ portfolio }: Props) {
   return (
     <Grid container style={{ minHeight: "calc(100vh - 160px)" }}>
       {prices !== null ? (
-        <Grid item sm={12} md={8} alignItems="center" justify="center">
+        <Grid item sm={12} md={7} alignItems="center" justify="center">
           <Grid container>
             <Grid
               item
@@ -63,7 +63,7 @@ export default function Portfolio({ portfolio }: Props) {
           </Grid>
         </Grid>
       ) : (
-        <Grid item sm={12} md={8}>
+        <Grid item sm={12} md={7}>
           <CenterContainer>
             {assets.length > 0 ? (
               <Typography variant="h4" component="h4">
@@ -77,7 +77,7 @@ export default function Portfolio({ portfolio }: Props) {
           </CenterContainer>
         </Grid>
       )}
-      <Grid item sm={12} md={4}>
+      <Grid item sm={12} md={5}>
         <Sidebar portfolio={portfolio} prices={prices} />
       </Grid>
     </Grid>

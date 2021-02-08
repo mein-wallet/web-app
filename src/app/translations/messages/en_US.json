@@ -51,5 +51,7 @@
   "portfolio_name": "Portfolio Name",
   "asset_price_per_unit": "Value per unit",
   "asset_total_amount": "Total",
-  "asset_actions": "Actions"
+  "asset_actions": "Actions",
+  "default_portfolio": "Default Portfolio",
+  "default_portfolio_hint": "This is the default portfolio that will load when you start the app."
 }
