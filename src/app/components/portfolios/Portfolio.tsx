@@ -57,7 +57,14 @@ export default function Portfolio({ portfolio }: Props) {
             >
               <Balance balance={balance} exchange={exchange} />
             </Grid>
-            <Grid item sm={12} md={12} alignItems="center" justify="center">
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              alignItems="center"
+              justify="center"
+            >
               <Chart prices={prices} assets={assets} exchange={exchange} />
             </Grid>
           </Grid>

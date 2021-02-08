@@ -5,6 +5,8 @@ import { getPercentage, getTotalBalance } from "../../helpers/convertions";
 import { Asset } from "../../models/asset";
 import { Prices } from "../../models/prices";
 import { Exchange } from "../../models/exchange";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 type DataType = { x: string; y: number };
 
@@ -17,6 +19,8 @@ type Props = {
 export default function Chart({ assets, prices, exchange }: Props) {
   const [data, setData] = React.useState<DataType[]>([] as DataType[]);
   const total = getTotalBalance(exchange, prices, assets);
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("xs"));
 
   React.useEffect(() => {
     if (prices !== null) {
@@ -42,10 +46,16 @@ export default function Chart({ assets, prices, exchange }: Props) {
     <PieContainer>
       <VictoryPie
         theme={VictoryTheme.material}
-        labelRadius={135}
+        labelRadius={isSmall ? 60 : 135}
         innerRadius={20}
         data={data}
-        style={{ labels: { fill: "white", fontSize: 16, fontWeight: "bold" } }}
+        style={{
+          labels: {
+            fill: isSmall ? "black" : "white",
+            fontSize: 16,
+            fontWeight: "bold",
+          },
+        }}
         animate={{
           duration: 2000,
         }}
