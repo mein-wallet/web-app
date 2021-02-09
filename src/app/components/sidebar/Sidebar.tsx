@@ -93,7 +93,7 @@ export default function Sidebar({ prices, portfolio }: Props) {
       <AddButtonContainer>
         <HtmlTooltip
           arrow
-          placement="right"
+          placement="top-start"
           open={assetsHintOpen}
           title={
             <React.Fragment>
@@ -200,7 +200,6 @@ const SidebarContainer = styled.div`
   h2 {
     margin: 20px;
   }
-  height: 100%;
 `;
 
 const CloseHintContainer = styled.div`
