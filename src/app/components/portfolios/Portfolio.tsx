@@ -120,7 +120,7 @@ export default function Portfolio({ portfolio }: Props) {
             style={{ position: "absolute", bottom: 0, right: 0 }}
             onClick={() => setConfigOpened(true)}
           >
-            Edit Portfolio
+            <FormattedMessage id="edit_portfolio_button" />
           </Button>
         </Grid>
       ) : (
@@ -163,7 +163,7 @@ export default function Portfolio({ portfolio }: Props) {
                 color="primary"
                 onClick={() => setConfigOpened(true)}
               >
-                Edit Portfolio
+                <FormattedMessage id="edit_portfolio_button" />
               </Button>
             </HtmlTooltip>
           </ButtonContainer>
