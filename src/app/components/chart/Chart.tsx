@@ -46,13 +46,14 @@ export default function Chart({ assets, prices, exchange }: Props) {
     <PieContainer>
       <VictoryPie
         theme={VictoryTheme.material}
-        labelRadius={isSmall ? 60 : 135}
+        labelRadius={isSmall ? 132 : 135}
         innerRadius={20}
         data={data}
         style={{
           labels: {
-            fill: isSmall ? "black" : "white",
-            fontSize: 16,
+            fill: "white",
+            stroke: "black",
+            fontSize: isSmall ? 14 : 16,
             fontWeight: "bold",
           },
         }}
@@ -65,5 +66,5 @@ export default function Chart({ assets, prices, exchange }: Props) {
 }
 
 const PieContainer = styled.div`
-  height: calc(100vh - 300px);
+  height: calc(100vh - 224px);
 `;

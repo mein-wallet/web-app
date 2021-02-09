@@ -90,28 +90,28 @@ export default function Sidebar({ prices, portfolio }: Props) {
         prices={prices}
         portfolioUuid={uuid}
       />
-      <HtmlTooltip
-        arrow
-        placement="right"
-        open={assetsHintOpen}
-        title={
-          <React.Fragment>
-            <Typography color="inherit">
-              <FormattedMessage id="add_asset" />
-            </Typography>
-            <CloseHintContainer>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => closeAssetHint()}
-              >
-                <FormattedMessage id="understood" />
-              </Button>
-            </CloseHintContainer>
-          </React.Fragment>
-        }
-      >
-        <AddButtonContainer>
+      <AddButtonContainer>
+        <HtmlTooltip
+          arrow
+          placement="right"
+          open={assetsHintOpen}
+          title={
+            <React.Fragment>
+              <Typography color="inherit">
+                <FormattedMessage id="add_asset" />
+              </Typography>
+              <CloseHintContainer>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => closeAssetHint()}
+                >
+                  <FormattedMessage id="understood" />
+                </Button>
+              </CloseHintContainer>
+            </React.Fragment>
+          }
+        >
           <Button
             onClick={() => handleClickOpen()}
             color="primary"
@@ -119,8 +119,8 @@ export default function Sidebar({ prices, portfolio }: Props) {
           >
             <FormattedMessage id="add" />
           </Button>
-        </AddButtonContainer>
-      </HtmlTooltip>
+        </HtmlTooltip>
+      </AddButtonContainer>
       <Dialog
         open={addAssetOpen}
         onClose={() => handleClose()}

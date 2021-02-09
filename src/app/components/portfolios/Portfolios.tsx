@@ -36,17 +36,19 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 interface TabPanelProps {
   children?: React.ReactNode;
+  className: any;
   index: any;
   value: any;
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { className, children, value, index, ...other } = props;
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <div
+      className={className}
       role="tabpanel"
       hidden={value !== index}
       id={`scrollable-auto-tabpanel-${index}`}
@@ -79,9 +81,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     width: "100%",
     backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    flexDirection: "column",
+    height: "calc(100vh - 66px)",
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+  },
+  tabPanel: {
+    height: "calc(100vh - 66px)",
+    overflow: "auto",
   },
 }));
 
@@ -212,6 +221,7 @@ export default function Portfolios() {
       </AppBar>
       {portfolios.map((portfolio, index) => (
         <TabPanel
+          className={classes.tabPanel}
           key={portfolio.uuid}
           value={currentPortfolioIndex}
           index={index}
@@ -221,7 +231,7 @@ export default function Portfolios() {
       ))}
       {portfolios.length < 1 && (
         <CenterContainer>
-          <Typography variant="h4" component="h4">
+          <Typography component="p">
             <FormattedMessage id="create_portfolio_hint" />
           </Typography>
         </CenterContainer>

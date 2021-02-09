@@ -70,6 +70,7 @@ export default function Menu() {
 
   const setView = (view: View) => {
     dispatch({ type: ActionTypes.setView, payload: view });
+    dispatch({ type: ActionTypes.setMenuOppened, payload: false });
   };
 
   return (
