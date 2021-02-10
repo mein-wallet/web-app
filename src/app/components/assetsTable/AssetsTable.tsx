@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: "100%",
     },
-    container: {
-      maxHeight: 440,
-    },
     notMobile: {
       [theme.breakpoints.down("xs")]: {
         display: "none",
@@ -107,7 +104,7 @@ export default function AssetsTable({
 
   return (
     <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
+      <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>

@@ -56,6 +56,14 @@ describe("Settings Reducer", () => {
     expect(state.defaultPortfolio).toEqual(portfolio.uuid);
   });
 
+  test("setBalanceHidden action works", () => {
+    state = reducer(state, {
+      type: ActionTypes.setBalanceHidden,
+      payload: true,
+    });
+    expect(state.balanceHidden).toEqual(true);
+  });
+
   test("removeDefaultPortfolio action works", () => {
     const portfolio = portfoliosMock[0];
     state = reducer(state, {

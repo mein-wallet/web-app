@@ -46,4 +46,14 @@ describe("<Balance />", () => {
     const wrapper = setupComponent();
     expect(wrapper.text()).toContain(defaultProps.exchange.toUpperCase());
   });
+
+  it("hide the balance onclick", () => {
+    const wrapper = setupComponent();
+
+    wrapper.simulate("click");
+    wrapper.update();
+    setTimeout(() => {
+      expect(wrapper.text()).toContain("###.###");
+    }, 300);
+  });
 });

@@ -9,6 +9,7 @@ export const defaultState: State = {
   locale: "en",
   welcome: true,
   autosave: true,
+  balanceHidden: false,
 };
 
 type SettingsProviderProps = {

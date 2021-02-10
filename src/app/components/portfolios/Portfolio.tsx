@@ -99,18 +99,11 @@ export default function Portfolio({ portfolio }: Props) {
     <Grid container>
       {prices !== null ? (
         <Grid item md={12} alignItems="center" justify="center">
-          <Grid container>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              alignItems="center"
-              justify="center"
-            >
+          <Grid container justify="center" alignItems="center">
+            <Grid item xs={12} sm={12} md={12}>
               <Balance balance={balance} exchange={exchange} />
             </Grid>
-            <Grid item md={12} alignItems="center" justify="center">
+            <Grid item sm={12} md={8} lg={8}>
               <Chart prices={prices} assets={assets} exchange={exchange} />
             </Grid>
           </Grid>
@@ -136,7 +129,7 @@ export default function Portfolio({ portfolio }: Props) {
               </Typography>
             )}
           </CenterContainer>
-          <ButtonContainer>
+          <OpenConfigButtonContainer>
             <HtmlTooltip
               arrow
               placement="top-start"
@@ -166,10 +159,12 @@ export default function Portfolio({ portfolio }: Props) {
                 <FormattedMessage id="edit_portfolio_button" />
               </Button>
             </HtmlTooltip>
-          </ButtonContainer>
+          </OpenConfigButtonContainer>
         </Grid>
       )}
+
       <Drawer
+        variant="persistent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: configOpened,
           [classes.drawerClose]: !configOpened,
@@ -184,14 +179,18 @@ export default function Portfolio({ portfolio }: Props) {
         open={configOpened}
         onClose={() => setConfigOpened(false)}
       >
-        <Button
-          variant="contained"
-          color="default"
-          onClick={() => setConfigOpened(false)}
-          startIcon={<Close />}
-        >
-          <FormattedMessage id="close" />
-        </Button>
+        {configOpened && (
+          <CloseConfigButtonContainer>
+            <Button
+              variant="contained"
+              color="default"
+              onClick={() => setConfigOpened(false)}
+              startIcon={<Close />}
+            >
+              <FormattedMessage id="close" />
+            </Button>
+          </CloseConfigButtonContainer>
+        )}
         <Sidebar portfolio={portfolio} prices={prices} />
       </Drawer>
     </Grid>
@@ -208,8 +207,15 @@ const CloseHintContainer = styled.div`
   text-align: right;
 `;
 
-const ButtonContainer = styled.div`
+const OpenConfigButtonContainer = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
+`;
+
+const CloseConfigButtonContainer = styled.div`
+  position: fixed;
+  bottom: 364px;
+  right: 16px;
+  z-index: 1000;
 `;

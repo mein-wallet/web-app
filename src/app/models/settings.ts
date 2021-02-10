@@ -6,5 +6,6 @@ export interface Settings {
   exchange: Exchange;
   welcome: boolean;
   autosave: boolean;
+  balanceHidden: boolean;
   defaultPortfolio?: string;
 }

@@ -10,6 +10,7 @@ export enum ActionTypes {
   setWelcome,
   setDefaultPortfolio,
   removeDefaultPortfolio,
+  setBalanceHidden,
 }
 
 export type Action = { type: ActionTypes; payload: any };
@@ -21,6 +22,11 @@ const reducer: Reducer<State, Action> = (state: State, action: Action) => {
     case ActionTypes.setAutosave: {
       return { ...state, autosave: payload };
     }
+
+    case ActionTypes.setBalanceHidden: {
+      return { ...state, balanceHidden: payload };
+    }
+
     case ActionTypes.setExchange: {
       return { ...state, exchange: payload };
     }
